@@ -82,7 +82,6 @@ def read_distance(timeout_us=30000):
         return None
 
 # ---------- LCD DISPLAY ----------
-# Row 1 → Distance, Row 2 → Temperature
 def lcd_display(dist=None, temp=None):
     lcd.clear()
     lcd.move_to(0, 0)
@@ -95,49 +94,141 @@ def lcd_display(dist=None, temp=None):
         lcd.putstr("Temp:{:.1f}C".format(temp))
     else:
         lcd.putstr("Temp:N/A")
-
 # ---------- HTML ----------
 def webpage(temp, hum, dist, led_state):
     t_str = f"{temp:.1f}" if temp is not None else "N/A"
     h_str = f"{hum:.1f}" if hum is not None else "N/A"
     d_str = f"{dist:.1f}" if dist is not None else "N/A"
     return f"""<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>ESP32 IoT Webserver</title>
-  <meta http-equiv="refresh" content="2">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="10">
   <style>
-    body{{font-family:Arial; text-align:center; margin-top:30px;}}
-    .btn{{padding:10px 20px; margin:8px;}}
-    input[type=text]{{padding:8px; width:220px;}}
+    body {{
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }}
+    header {{
+      background: #0066cc;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 1.5em;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }}
+    .container {{
+      width: 95%;
+      max-width: 700px;
+      margin: 20px auto;
+    }}
+    .card {{
+      background: #fff;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }}
+    .card h2 {{
+      margin-top: 0;
+      color: #222;
+    }}
+    .card p {{
+      font-size: 1.1em;
+      margin: 8px 0;
+      color: #333;
+    }}
+    .btn {{
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 6px 5px;
+      border-radius: 6px;
+      background: #0078d7;
+      color: white;
+      font-size: 1em;
+      text-decoration: none;
+      transition: 0.3s;
+    }}
+    .btn:hover {{
+      background: #005fa3;
+    }}
+    form input[type=text] {{
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }}
+    form input[type=submit] {{
+      padding: 10px 20px;
+      background: #28a745;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }}
+    form input[type=submit]:hover {{
+      background: #1f7a33;
+    }}
+    footer {{
+      margin: 15px 0;
+      font-size: 0.85em;
+      color: #666;
+    }}
   </style>
 </head>
 <body>
-  <h1>ESP32 IoT Webserver</h1>
-  <h3>LED is {led_state}</h3>
-  <a href="/led_on"><button class="btn">LED ON</button></a>
-  <a href="/led_off"><button class="btn">LED OFF</button></a>
+  <header>🌐 ESP32 IoT Webserver</header>
+  <div class="container">
 
-  <h2>Sensor Readings</h2>
-  <p>Temperature: {t_str}&deg;C</p>
-  <p>Humidity: {h_str}%</p>
-  <p>Distance: {d_str} cm</p>
+    <div class="card">
+      <h2>💡 LED Control</h2>
+      <p>Status: <b>{led_state}</b></p>
+      <a href="/led_on" class="btn">Turn ON</a>
+      <a href="/led_off" class="btn">Turn OFF</a>
+    </div>
 
-  <h2>Send to LCD</h2>
-  <a href="/show_dist"><button class="btn">Show Distance</button></a>
-  <a href="/show_temp"><button class="btn">Show Temp</button></a>
-  <a href="/show_both"><button class="btn">Show Both</button></a>
+    <div class="card">
+      <h2>📊 Sensor Readings</h2>
+      <p>🌡 Temperature: <b>{t_str}&deg;C</b></p>
+      <p>💧 Humidity: <b>{h_str}%</b></p>
+      <p>📏 Distance: <b>{d_str} cm</b></p>
+    </div>
 
-  <h2>Custom LCD Message</h2>
-  <form action="/send_text">
-    <input type="text" name="msg" placeholder="Enter text">
-    <input type="submit" value="Send">
-  </form>
-  <p style="font-size:0.8em; color:#666;">Auto-refresh every 2s</p>
+    <div class="card">
+      <h2>🖥 LCD Controls</h2>
+      <a href="/show_dist" class="btn">Show Distance</a>
+      <a href="/show_temp" class="btn">Show Temp</a>
+      <a href="/show_both" class="btn">Show Both</a>
+    </div>
+
+    <div class="card">
+      <h2>✍️ Custom LCD Message</h2>
+      <form action="/send_text">
+        <input type="text" name="msg" placeholder="Enter text for LCD">
+        <br>
+        <input type="submit" value="Send">
+      </form>
+    </div>
+
+    <footer>🔄 Page auto-refreshes every 10s</footer>
+  </div>
 </body>
 </html>
 """
+
 # ---------- SERVER ----------
 addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
 s = socket.socket()
@@ -167,7 +258,6 @@ while True:
         t, h = read_dht()
         d = read_distance()
         led_state = "ON" if led.value() else "OFF"
-
         # LCD actions
         if '/show_dist' in request:
             lcd_display(dist=d, temp=None)
