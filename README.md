@@ -1,30 +1,34 @@
-LAB2: IoT Webserver with LED, Sensors, and LCD Control
-1) Overview
+# LAB2: IoT Webserver with LED, Sensors, and LCD Control
 
-Build an ESP32-based IoT system with MicroPython that:
+## 1) Overview
+ESP32 + MicroPython project with a browser-based UI to:
+- Toggle an **LED**
+- Read **DHT11** (temperature/humidity) + **HC-SR04** (distance)
+- Show selected sensor values on a **16×2 I²C LCD**
+- Send **custom text** from the webpage to the LCD
 
-Serves a web page to control an LED
+Focus: event-driven interaction between web UI and hardware.
 
-Reads DHT11 (temperature/humidity) and HC-SR04 (ultrasonic distance)
+---
 
-Shows selected sensor values on a 16×2 LCD (I²C)
+## 2) Learning Outcomes
+- Build a MicroPython **webserver** with HTML controls
+- Control an **LED** from the browser
+- Read **DHT11** + **ultrasonic** and show on a webpage
+- Send sensor values to **LCD** via buttons
+- Send **custom text** (textbox → LCD)
+- Document wiring and usage clearly
 
-Displays custom text from a webpage textbox on the LCD
+---
 
-This lab focuses on event-driven interaction between a web UI and hardware.
+## 3) Equipment
+- ESP32 Dev Board (with MicroPython)
+- DHT11 sensor
+- HC-SR04 ultrasonic sensor
+- 16×2 LCD with **I²C** backpack
+- Breadboard, jumper wires, USB cable
+- Laptop with **Thonny**
+- Wi-Fi access
 
-2) Learning Outcomes
-
-By the end, you can:
-
-Implement a MicroPython webserver with HTML controls
-
-Toggle an LED from the browser
-
-Read DHT11 + ultrasonic and publish values on the web page
-
-Send sensor values to an LCD via buttons
-
-Send custom text from a textbox to the LCD
-
-Document wiring and usage
+---
+## 4) Wiring
