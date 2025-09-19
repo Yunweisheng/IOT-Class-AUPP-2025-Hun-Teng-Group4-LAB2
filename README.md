@@ -32,6 +32,9 @@ Focus: event-driven interaction between web UI and hardware.
 
 ---
 ## 4) Wiring
-![Lab photo](<https://github.com/Yunweisheng/IOT-Class-AUPP-2025-Hun-Teng-Group4-LAB2/blob/main/2025-09-20%2000.00.26.jpg?raw=true>)
-
+<p align="center">
+  <img src="https://github.com/Yunweisheng/IOT-Class-AUPP-2025-Hun-Teng-Group4-LAB2/blob/main/2025-09-20%2000.00.32.jpg?raw=true" alt="Photo 1" width="32%">
+  <img src="https://github.com/Yunweisheng/IOT-Class-AUPP-2025-Hun-Teng-Group4-LAB2/blob/main/2025-09-20%2000.00.37.jpg?raw=true" alt="Photo 2" width="32%">
+  <img src="https://github.com/Yunweisheng/IOT-Class-AUPP-2025-Hun-Teng-Group4-LAB2/blob/main/2025-09-20%2000.00.32.jpg?raw=true" alt="Photo 3" width="32%">
+</p>
 
